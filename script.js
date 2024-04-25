@@ -13,6 +13,7 @@ let hungry=null;
 let suitCase={height:60,length:40,width:20};
 let wifiPassword="";
 let hotelBooking=null;
+let taxiMessage="Taxi me puede llevar al hotel mariposas amarillas";
 
 const airportFood=function(){
     let i=true;
@@ -84,6 +85,63 @@ const decodePassword=function(password){
     return password;
 }
 
+const translateMacondes=function(message,arr){
+    let vocalsValidator=["a","e","i","o","u"];
+    let newMessage="";
+    for (let i = 0; i < message.length; i++) {
+        if(vocalsValidator.includes(message[i])){
+            newMessage+="i";
+        }else{
+            newMessage+=message[i];
+        }
+    }
+    return newMessage;
+}
+
+const rockPaperScissors=function(){
+    let i=true;
+    let choice=0;
+    let result="";
+    let taxiPosibleChoice=["piedra","papel","tijera"];
+    let taxiRandomChoice="";
+    let gameResults=[{Hildebrando:"papel",taxista:"papel",result:"Hubo empate"},
+                    {Hildebrando:"papel",taxista:"piedra",result:"Ganaste"},
+                    {Hildebrando:"papel",taxista:"tijera",result:"Perdiste"},
+                    {Hildebrando:"piedra",taxista:"papel",result:"Perdiste"},
+                    {Hildebrando:"piedra",taxista:"piedra",result:"Hubo empate"},
+                    {Hildebrando:"piedra",taxista:"tijera",result:"Ganaste"},
+                    {Hildebrando:"tijera",taxista:"papel",result:"Ganaste"},
+                    {Hildebrando:"tijera",taxista:"piedra",result:"Perdiste"},
+                    {Hildebrando:"tijera",taxista:"tijera",result:"Hubo empate"}];
+    while(i){
+        choice=Number(prompt("¿Piedra, papel o tijera?\n1. Piedra\n2. Papel\n3. Tijera"));
+        if((choice>0)&&(choice<4)){
+            if(choice==1){
+                alert("Eliges piedra.");
+                choice="piedra";
+            }else if(choice==2){
+                alert("Eliges papel.");
+                choice="papel";
+            }else if(choice==3){
+                alert("Eliges tijera.");
+                choice="tijera";
+            }
+            taxiRandomChoice=taxiPosibleChoice[Math.floor(Math.random()*taxiPosibleChoice.length)];
+            alert("El taxista elige "+taxiRandomChoice+".");
+            gameResults.forEach(element => {
+                if((element.Hildebrando==choice)&&(element.taxista==taxiRandomChoice)){
+                    result=element.result;
+                }
+            });
+            i=false;
+            break;
+        }else{
+            alert("Elige una opción válida");
+        }
+    }
+    return result;
+}
+
 const showFinalMessage=function(days,budget,death){
     let life= death==false ? "Regresaste vivo de tus vacaciones" : "Moriste en tus vacaciones";
     let expenses=2500000-budget;
@@ -137,7 +195,7 @@ while(i){
         showBudget(budget);
     }
     //Saturday
-    alert("...Llegando a Medellin...")
+    alert("...Llegando a Medellin...");
     alert("Estás en Medellín, la ciudad de la eterna primavera. Bienvenido!");
     if(hungry==true){
         alert("¿Recuerdas que no comiste en el aeropuerto de tu ciudad? Ahora el único restaurante abierto es uno de lujo y tienes que pagar 100000 por una cena");
@@ -151,17 +209,39 @@ while(i){
     alert("Acceder a la red tiene un costo de 50000 y tienes que tomarte el tiempo de descifrar los números binarios de la clave.");
     decision=airportWifi();//show menu, save user entry
     if(decision==1){
-        budget-=50000;
+        budget-=50000;//wifi conexion price
         showBudget(budget);
-        wifiPassword=decodePassword(wifiPassword);
+        wifiPassword=decodePassword(wifiPassword);//decode the binaries in password
         alert(`Logras codificar la contraseña rapidamente (${wifiPassword}) y hacer la reserva antes de que salga el vuelo. La reserva del hotel te salió en 900000`);
         hotelBooking=true;//flag for hotel reservation
-        budget-=900000;
+        budget-=900000;//hotel booking price
         showBudget(budget);
     }else if(decision==2){
-        alert("Prefieres volar sin reserva para no arriesgarte a perder otro vuelo, ojala no te salga caro no hacer la reserva.");
+        alert("Prefieres volar sin reserva para no arriesgarte a perder el vuelo, ojala no te salga caro no hacer la reserva.");
         hotelBooking=false;
     }
     alert("Finalmente, esperas que salga tu viaje a Macondo.");
+    alert("...Llegando a Macondo...");
+    days++; // Is the first day in Macondo
+    alert("Cuando estás saliendo del aeropuerto de Macondo, descubres que allí se habla otro idioma completamente diferente.\nEl macondes es un idioma particular que cambia todas las vocales por la letra i.");
+    alert("Necesitas tomar un taxi, pero no sabes como decirle al conductor: "+taxiMessage);
+    taxiMessage=translateMacondes(taxiMessage,vocalsArray);//translate spanish to Macondes
+    alert("Despues de pensar un rato, le dices al conductor: "+taxiMessage+".\nFinalmente te entiende y procede a llevarte a tu destino");
+    alert("...Llegando al hotel...");
+    alert("El taxista te quiere cobrar 300000, pero tu no deseas pagar esta injusta cifra.");
+    alert("Logras negociar un juego de piedra papel o tijera. Si ganas no pagas el viaje, si pierdes pagas los 300000 que quiere el taxista y si hay empate solo pagas la mitad.");
+    decision=rockPaperScissors();//show rock, paper and scissors minigame
+    alert(decision);
+    if(decision=="Ganaste"){
+        alert("Excelente! evitaste pagar los 300000 que te exigía el taxista.");
+    }else if(decision=="Perdiste"){
+        alert("Lamentablemente tienes que cumplir el trato y pagar los 300000");
+        budget-=300000;
+        showBudget(budget);
+    }else if(decision=="Hubo empate"){
+        alert("Debido al empate solo tienes que pagar 150000, la mitad de lo exigido por el taxista");
+        budget-=150000;
+        showBudget(budget);
+    }
 }
 showFinalMessage(days,budget,death);//game final message
