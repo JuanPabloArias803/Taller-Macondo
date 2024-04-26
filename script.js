@@ -85,7 +85,7 @@ const decodePassword=function(password){
     return password;
 }
 
-const translateMacondes=function(message,arr){
+const translateMacondes=function(message){
     let vocalsValidator=["a","e","i","o","u"];
     let newMessage="";
     for (let i = 0; i < message.length; i++) {
@@ -140,6 +140,10 @@ const rockPaperScissors=function(){
         }
     }
     return result;
+}
+
+const macondoDays=function(){
+    
 }
 
 const showFinalMessage=function(days,budget,death){
@@ -222,10 +226,9 @@ while(i){
     }
     alert("Finalmente, esperas que salga tu viaje a Macondo.");
     alert("...Llegando a Macondo...");
-    days++; // Is the first day in Macondo
     alert("Cuando estás saliendo del aeropuerto de Macondo, descubres que allí se habla otro idioma completamente diferente.\nEl macondes es un idioma particular que cambia todas las vocales por la letra i.");
     alert("Necesitas tomar un taxi, pero no sabes como decirle al conductor: "+taxiMessage);
-    taxiMessage=translateMacondes(taxiMessage,vocalsArray);//translate spanish to Macondes
+    taxiMessage=translateMacondes(taxiMessage);//translate spanish to Macondes
     alert("Despues de pensar un rato, le dices al conductor: "+taxiMessage+".\nFinalmente te entiende y procede a llevarte a tu destino");
     alert("...Llegando al hotel...");
     alert("El taxista te quiere cobrar 300000, pero tu no deseas pagar esta injusta cifra.");
@@ -243,5 +246,22 @@ while(i){
         budget-=150000;
         showBudget(budget);
     }
+    alert("Después de tu juego con el taxista te dispones a entrar al hotelvocalsArray.");
+    if(hotelBooking=false){
+        alert("Cuando entras en la recepción del hotel, recuerdas que no hiciste la reserva en el aeropuerto de Medellín.");
+        alert("El recepcionista te menciona que por no reservar, el precio de la estadía es de 1100000");
+        let hotelPrice=1100000;
+        if(hotelPrice>budget){
+            showBudget(budget);
+            alert("No te alcanza para pagar la estadia en el hotel de tus sueños, la gran desilusión te hace decidir volver de tus vacaciones.");
+            days++;//only one day in Macondo
+            i=false;//exit the game
+            break;
+        }else{ 
+            budget-=hotelPrice;
+            showBudget(budget);
+        }
+    }
+    macondoDays();
 }
 showFinalMessage(days,budget,death);//game final message
