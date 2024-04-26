@@ -143,7 +143,59 @@ const rockPaperScissors=function(){
 }
 
 const macondoDays=function(){
-    
+    let colorOptions=["Amarillo","Rojo", "Azul", "Verde"];//dresscode options
+    let colorSelect="";
+    let choice=0;
+    let i=true;//while flag
+    alert("Bienvenido al hotel mariposas amarillas! El mejor hotel para disfrutar tus vacaciones en Macondo!.");
+    alert("El hotel mariposas amarillas tiene un código de vestimenta por colores, cada día podras vestir de un color diferente y según tu elección el hotel tendrá actividades diferentes definidas para ese día.")
+    while(days<4&&i){
+        days++;
+        let j=true;//while flag
+        let menu="¿Que color de vestimenta deseas usar el día de hoy?";
+        alert(`Día ${days}.`);
+        for (let i = 0; i < colorOptions.length; i++) {
+            menu+=`\n${i+1}. ${colorOptions[i]}`
+        }
+        while(j){
+            choice=Number(prompt(menu));
+            if((choice>0)&&(choice<colorOptions.length+1)){
+                colorSelect=colorOptions[choice-1];
+                colorOptions.splice(choice-1,1);
+                j=false;
+                break;
+            }else{
+                alert("Introduce una opción valida");
+            }
+        }
+        if(colorSelect=="Amarillo"){
+            alert("La actividad para el día de hoy es disfrutar la piscina del hotel, alista tu toalla para relajarte con un baño.");
+            alert("Cuando llegas a la piscina descubres que tiene un raro olor...");
+            let j=true;
+            while(j){
+                choice=Number(prompt("¿Que deberías hacer?\n1. No darle importancia al olor y meterte a la piscina.\n2. Evitar la piscina por su olor y disfrutar del sol fuera de esta."));
+                if((choice>0)&&(choice<3)){
+                    if(choice==1){
+                        alert("La piscina tenía una cantidad de cloro mortal para los seres humanos, mueres antes de que alguien pueda briundarte ayuda.");
+                        death=true;
+                        return;
+                    }else if(choice==2){
+                        alert("Minutos despues de relajarte en el sol, un empleado corre a decirte que no se puede ingresar a la psicina por que tiene mucho cloro y te puedes morir");
+                        alert("Terminas de pasar el día tranquilo bajo el sol");
+                    }
+                    j=false;
+                }else{
+                    alert("Selecciona una opción válida");
+                }
+            }
+        }else if(colorSelect=="Rojo"){
+            alert(colorSelect);
+        }else if(colorSelect=="Azul"){
+            alert(colorSelect);
+        }else if(colorSelect=="Verde"){
+            alert(colorSelect);
+        }
+    }
 }
 
 const showFinalMessage=function(days,budget,death){
@@ -246,8 +298,8 @@ while(i){
         budget-=150000;
         showBudget(budget);
     }
-    alert("Después de tu juego con el taxista te dispones a entrar al hotelvocalsArray.");
-    if(hotelBooking=false){
+    alert("Después de tu juego con el taxista te dispones a entrar al hotel.");
+    if(hotelBooking==false){
         alert("Cuando entras en la recepción del hotel, recuerdas que no hiciste la reserva en el aeropuerto de Medellín.");
         alert("El recepcionista te menciona que por no reservar, el precio de la estadía es de 1100000");
         let hotelPrice=1100000;
@@ -260,8 +312,12 @@ while(i){
         }else{ 
             budget-=hotelPrice;
             showBudget(budget);
+            macondoDays();
         }
+    }else{
+        macondoDays();
     }
-    macondoDays();
+    i=false;
+    break;
 }
 showFinalMessage(days,budget,death);//game final message
